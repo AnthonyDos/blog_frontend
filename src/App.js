@@ -1,8 +1,9 @@
 import React from 'react';
-import Header from "./views/header/Header"; 
-import './App.css';
-import Footer from './views/footer/Footer';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from "./views/header/Header"; 
+import Home from "./views/home/Home";
+import Footer from './views/footer/Footer';
+import './App.css';
 
 
 function App() {
@@ -11,7 +12,10 @@ function App() {
       <Header />
         <BrowserRouter>
           <Routes>
-            <Route />
+            <Route 
+              index
+              element={<Home />}
+            />
           </Routes> 
         </BrowserRouter>
       <Footer />
