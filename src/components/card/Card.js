@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "../../assets/css/cardHome.css";
-import { allArticlesService } from "../../services/ArticleService";
 import { 
     TiArrowUpOutline, 
     TiArrowDownOutline, 
@@ -8,16 +7,12 @@ import {
 } from "react-icons/ti";
 import { BiCommentDetail } from "react-icons/bi";
 
-const Card = () => {
-    //const [ listArticles, setListArticle ] = useState("");
-    
-    const listArticles = JSON.parse(localStorage.getItem("articles"))
+const Card = (props) => {
+    const { dataValue } = props;
 
     useEffect(()=> {
-        allArticlesService();
-    }, [listArticles])
-
-    console.log(listArticles)
+        
+    }, [dataValue])
 
     const WordCount = (text) => {
         const MILLISECONDS = 60000;
@@ -48,7 +43,7 @@ const Card = () => {
     return(
         <div className="container_card">
             {
-                listArticles?.map((list, index)=> {
+                dataValue?.map((list, index)=> {
                     const infoUser =list.user
                     const eventDate = new Date (list.date)
                     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
