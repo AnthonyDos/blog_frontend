@@ -1,0 +1,22 @@
+header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #dedede;
+}
+
+.container_logo{
+    width: 9%;
+}
+
+img.logo_site {
+    max-width: 100%;
+}
+
+button.btn_login {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    width: 85px;
+}

@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
+import "../../assets/css/cardHome.css";
 import { allArticlesService } from "../../services/ArticleService";
+import { 
+    TiArrowUpOutline, 
+    TiArrowDownOutline, 
+    TiArrowForwardOutline 
+} from "react-icons/ti";
+import { BiCommentDetail } from "react-icons/bi";
 
 const Card = () => {
     //const [ listArticles, setListArticle ] = useState("");
@@ -13,6 +20,7 @@ const Card = () => {
     console.log(listArticles)
 
     const WordCount = (text) => {
+        const MILLISECONDS = 60000;
         let number = 0;
         let split = text.split(" ");
         let currentTimeReading = parseFloat(0.4);
@@ -26,7 +34,7 @@ const Card = () => {
         const readingTime = currentTimeReading * number / 60
         const multipliTotal = readingTime * 60 * 1000
 
-        if (multipliTotal < 60000) {
+        if (multipliTotal < MILLISECONDS) {
             const changeFormat = readingTime.toString()
             const newTimeSeconds = changeFormat.substring(2,4) 
             return newTimeSeconds + " sec"
@@ -38,7 +46,7 @@ const Card = () => {
     }
   
     return(
-        <div>
+        <div className="container_card">
             {
                 listArticles?.map((list, index)=> {
                     const infoUser =list.user
@@ -47,20 +55,34 @@ const Card = () => {
                     const date = eventDate.toLocaleDateString(undefined, options)
                     
                     return(
-                        <div key={index}>
-                            <div>
-                                <img src={infoUser.image} crossorigin="anonymous" alt="photo de l'utilisateur" />
+                        <div className="card" key={index}>
+                            <div className="card_userImage">
+                                <img 
+                                    className="image" 
+                                    src={infoUser.image} 
+                                    crossorigin="anonymous"    
+                                    alt="photo de l'utilisateur" 
+                                />
                             </div>
-                            <h1>{list.name}</h1>
-                            <div>
+                            <h1 className="card_title">{list.name}</h1>
+                            <div className="card_date_time">
                                 <p>{date}</p>
-                                {WordCount(list.content)}
+                                <span>.</span>
+                                <p> {WordCount(list.content)} read time</p>
                             </div>
-                            <div>
-                                <img src="" crossorigin="anonymous" alt="" />
+                            <div className="card_image">
+                                <img 
+                                    className="image_article"
+                                    src={list.image} 
+                                    crossorigin="anonymous" 
+                                    alt="image de l'article" 
+                                />
                             </div>
-                            <div>
-                                <p>logo</p>
+                            <div className="container_icones">
+                                <TiArrowUpOutline />
+                                <TiArrowDownOutline />
+                                <BiCommentDetail />
+                                <TiArrowForwardOutline />
                             </div>
                         </div>
                     )

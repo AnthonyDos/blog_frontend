@@ -1,0 +1,52 @@
+.container_card {  
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    color: white;
+    background-color: #0e1217;
+}
+
+.card {
+    background-color: #1a2339;
+    border: 1px solid white;
+    border-radius: 18px;
+    box-shadow: 1px 1px 0px;
+    margin: 1%;
+}
+
+.card_userImage {
+    margin-top: 13px;
+    width: 87px;
+}
+
+.card_image {
+    height: 219px;
+    width: 303px;
+}
+
+.image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+img.image_article {
+    max-width: 291px;
+    max-height: 155px;
+    border-radius: 15px;
+}
+
+.card_date_time {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 60%;
+    margin-left: 6%;
+    font-size: 10px;
+}
+
+.container_icones {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 4%;
+}
