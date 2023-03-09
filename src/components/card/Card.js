@@ -15,9 +15,8 @@ const Card = () => {
     const WordCount = (text) => {
         let number = 0;
         let split = text.split(" ");
-        let currentTimeReading = parseFloat(0.4); //0.4*300 mots et mot / 60 = 2 min
+        let currentTimeReading = parseFloat(0.4);
         let read = 0;
-        // 4 min * 60 sec * 1000 millisec
 
         for(let i = 0; i < split.length; i++) {
             if (split[i] != "") {
