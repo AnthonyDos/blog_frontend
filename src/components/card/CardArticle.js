@@ -6,11 +6,9 @@ import {
     TiArrowDownOutline, 
     TiArrowForwardOutline 
 } from "react-icons/ti";
-
 import { BiCommentDetail } from "react-icons/bi";
-import { useLocation, useParams } from "react-router-dom";
-import { PATH_ARTICLE_ID } from "../../config/path/pathClient";
 import FormLogin from "../login/FormLogin";
+import "../../assets/css/cardArticle.css";
 
 const CardArticle = () => {
     
@@ -18,9 +16,8 @@ const CardArticle = () => {
     const [ showTextArea, setShowTextArea ] = useState(false);
     const [ showBtnAddComment, setShowBtnAddComment ] = useState(true);
     const article = JSON.parse(localStorage.getItem("oneArticle"));
-    console.log(article)
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    console.log(isLoggedIn)
+
     const cancelComment = () => {
         setShowTextArea(!showTextArea)
         setNewComment("")
@@ -29,10 +26,8 @@ const CardArticle = () => {
     useEffect(()=> {
 
     },[article, newComment, isLoggedIn])
-
+    console.log(article)
     function AddComment(){
-        console.log(isLoggedIn)
-        console.log(showBtnAddComment)
         if (isLoggedIn === "false") {
             console.log(showBtnAddComment)
             setShowBtnAddComment(false)
@@ -40,21 +35,28 @@ const CardArticle = () => {
         }
         setShowBtnAddComment(true)
         return(
-            <form>
-                <textarea name="comment" id="" cols="30" rows="10" value={newComment} onChange={(e)=> setNewComment(e.target.value)}></textarea>
-                <div>
-                    <button onClick={()=>{cancelComment()}}>annuler</button>
-                    <button >publier</button>
+            <form className="form_comment">
+                <textarea 
+                    name="comment" id="" 
+                    cols="30" 
+                    rows="10" 
+                    value={newComment} 
+                    onChange={(e)=> setNewComment(e.target.value)}
+                ></textarea>
+                <div className="container_btn_comment">
+                    <button className="btn_comment" onClick={()=>{cancelComment()}}>annuler</button>
+                    <button className="btn_comment">publier</button>
                 </div>
             </form>
         )
     }
-    console.log(newComment)
+
     return(
-        <section>
-            <div>
-                <div>
-                    <img 
+        <section className="container_content_article">
+            <div className="content_article_user">
+                <div className="content_article_userInfo">
+                    <img
+                        className="content_article_userImage" 
                         crossorigin="anonymous"  
                         src={article?.user?.image} 
                         alt="photo de profil" 
@@ -64,50 +66,61 @@ const CardArticle = () => {
                 <p>{article?.user?.lastName}</p>
                 <p>{article?.user?.firstName}</p>
             </div>
-            <div>
-                <div>
+            <div className="content_article">
+                <div className="content_article_image">
                     <img 
+                        className="article_image"
                         crossorigin="anonymous"  
                         src={article?.image} 
                         alt="photo de l'article" 
                     />
                 </div>
                 <p>{article.name}</p>
-                <div>
-                    <div>
+                <div className="article_info_date">
+                    <div className="info_date_data">
                         <p>Date de l'article :</p>
                         <p>{FormatDate(article?.date)}</p>
                     </div>
-                    <div>
+                    <div className="info_data_read">
                         <p>Temps de lecture :</p>
                         <p>{WordCount(article.content)}</p>
                     </div>
-                    <div>
-                        <TiArrowUpOutline />
-                        <TiArrowDownOutline />
-                        <TiArrowForwardOutline />
+                    <div className="data_likeNumber">
+                        <p className="number_icone"><TiArrowUpOutline /> {article.likeCount}</p>
+                        <p className="number_icone"><TiArrowDownOutline /> {article.dislikes}</p>
+                        <p className="number_icone"><TiArrowForwardOutline /> {article.comments.length}</p>
                     </div>
                 </div>
-                <section>
+                <section className="article">
                     <p>{article.content}</p>
                 </section>
                 {
-                    showBtnAddComment === true ?<p>
-                        <BiCommentDetail />
-                        <button onClick={()=> setShowTextArea(!showTextArea)}>Ajouter un commentaire</button>
-                    </p> : null
+                    showBtnAddComment === true ?
+                        <div className="container_add_comment">
+                            <p className="add_comment">
+                                <BiCommentDetail />
+                                <button 
+                                    className="btn_comment" 
+                                    onClick={()=> setShowTextArea(!showTextArea)}
+                                >
+                                    Ajouter un commentaire
+                                </button>
+                            </p> 
+                        </div>
+                    : null
                 }
                 {
                     showTextArea === true ? <AddComment /> : null
                 }
-                <section>
+                <section className="content_commentList">
                     {
                         article?.comments?.map((comment, index) => {
                             return(
-                                <div key={index}>
-                                    <div>
+                                <div key={index} className="container_comment">
+                                    <div className="comment_details">
                                         <div>
                                             <img 
+                                                className="comment_user_photo"
                                                 crossorigin="anonymous" 
                                                 src={comment.user.image} 
                                                 alt="photo de profil" 
