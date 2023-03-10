@@ -6,6 +6,11 @@ import {
     TiArrowForwardOutline 
 } from "react-icons/ti";
 import { BiCommentDetail } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import * as PATH from "../../config/path/pathClient";
+import { oneArticlesService } from "../../services/ArticleService";
+import WordCount from "./WordCount";
+import FormatDate from "./FormatDate";
 
 const Card = (props) => {
     const { dataValue } = props;
@@ -14,64 +19,35 @@ const Card = (props) => {
         
     }, [dataValue])
 
-    const WordCount = (text) => {
-        const MILLISECONDS = 60000;
-        let number = 0;
-        let split = text.split(" ");
-        let currentTimeReading = parseFloat(0.4);
-        let read = 0;
-
-        for(let i = 0; i < split.length; i++) {
-            if (split[i] != "") {
-                number ++;
-            }
-        }
-        const readingTime = currentTimeReading * number / 60
-        const multipliTotal = readingTime * 60 * 1000
-
-        if (multipliTotal < MILLISECONDS) {
-            const changeFormat = readingTime.toString()
-            const newTimeSeconds = changeFormat.substring(2,4) 
-            return newTimeSeconds + " sec"
-        }else{
-            const format = readingTime.toString();
-            read = format.substring(0,1)
-            return parseInt(read) + " minutes";
-        }
-    }
-  
     return(
         <div className="container_card">
             {
                 dataValue?.map((list, index)=> {
-                    const infoUser =list.user
-                    const eventDate = new Date (list.date)
-                    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-                    const date = eventDate.toLocaleDateString(undefined, options)
-                    
                     return(
                         <div className="card" key={index}>
                             <div className="card_userImage">
                                 <img 
                                     className="image" 
-                                    src={infoUser.image} 
+                                    src={list.user.image} 
                                     crossorigin="anonymous"    
                                     alt="photo de l'utilisateur" 
                                 />
                             </div>
                             <h1 className="card_title">{list.name}</h1>
                             <div className="card_date_time">
-                                <p>{date}</p>
+                                <p>{FormatDate(list.date)}</p>
                                 <span>.</span>
                                 <p> {WordCount(list.content)} read time</p>
                             </div>
                             <div className="card_image">
-                                <img 
-                                    className="image_article"
-                                    src={list.image} 
-                                    crossorigin="anonymous" 
-                                    alt="image de l'article" 
-                                />
+                                <Link onClick={()=>oneArticlesService(list._id)} to={PATH.PATH_ARTICLE_ID + list._id}>
+                                    <img 
+                                        className="image_article"
+                                        src={list.image} 
+                                        crossorigin="anonymous" 
+                                        alt="image de l'article" 
+                                    />
+                                </Link>
                             </div>
                             <div className="container_icones">
                                 <TiArrowUpOutline />

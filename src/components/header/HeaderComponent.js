@@ -1,7 +1,11 @@
 import logo from "../../assets/images/logo.png";
 import "../../assets/css/header.css";
 import { IoMdLogIn } from "react-icons/io";
+import { Link } from "react-router-dom";
+import * as PATH from "../../config/path/pathClient";
+
 const HeaderComponent = () => {
+
     return(
         <header>
             <div className="container_logo">
@@ -9,10 +13,12 @@ const HeaderComponent = () => {
             </div>
             <h1 className="name_site">L'info du Digital</h1>
             <div className="login">
-                <button className="btn_login">
+            <Link to={PATH.PATH_LOGIN}>
+                <button  className="btn_login">   
                     <IoMdLogIn />
-                    <p>Se connecter</p>
+                    <p>Se connecter / s'inscrire</p>  
                 </button>
+            </Link>
             </div>
         </header>
     )

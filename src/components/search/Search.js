@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import "../../assets/css/search.css";
 
 const Search = (props) => {
     const { setData,data } = props;
@@ -9,8 +9,8 @@ const Search = (props) => {
     const HandleSearch = (e) => {
         e.preventDefault();
         setSearch(e.target.value);
-        const test = data.filter(e => e.name.toLowerCase().includes(search) || e.tag.toLowerCase().includes(search))
-        setData(test)
+        const filterData = data?.filter(e => e.name.toLowerCase().includes(search) || e.tag.toLowerCase().includes(search))
+        setData(filterData)
         if (valueOnKeyDown.keyCode === 8) {
             setData(JSON.parse(localStorage.getItem("articles")))
         }
@@ -21,9 +21,9 @@ const Search = (props) => {
     },[search])
     
     return(
-        <form>
+        <form className="form-search">
             <input 
-                id="input"
+                className="input_search"
                 type="search" 
                 value={search}
                 onChange={(e)=> HandleSearch(e)}

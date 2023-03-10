@@ -13,3 +13,17 @@ export const allArticlesService = () => {
     });
     
 }
+
+export const oneArticlesService = (id) => {
+
+    axios.get(API_CALL.BASE_URL + API_CALL.ARTICLES + id)
+    .then((response) => {
+        const article = response.data;
+        console.log(response)
+        localStorage.setItem("oneArticle",JSON.stringify(article))
+        return article
+    }).catch((err) => {
+        console.log({err: err})
+    });
+    
+}
