@@ -1,12 +1,22 @@
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { PATH_HOME } from "../../config/path/pathClient";
+import { PATH_ACCOUNT, PATH_HOME } from "../../config/path/pathClient";
 import { REGEX_EMAIL, REGEX_PASSWORD } from "../../config/regex/regex";
 import { loginService } from "../../services/AuthService";
+/**
+ * 
+ * Gestion du formulaire avec formik et yup pour la validation des données.
+ * Function signinUser appel le loginService
+ * changeShow affiche la vue selon si le user isLogged ou non dans le cas contraire il pourra s'authentifié sans changer de page
+ * 
+ */
 
-const FormLogin = () => {
+const FormLogin = (props) => {
+    const { setShowBtnAddComment, isLoggedIn } = props;
+    const pathLocation = useLocation();
     const navigate = useNavigate();
+
     const validationSchema = Yup.object().shape({
         email: Yup.string().required("L'email est obligatoire")
             .email("Veuillez entrer une adresse email valide"),
@@ -20,8 +30,8 @@ const FormLogin = () => {
     }
 
     const signinUser = (formValues) => {
-            console.log(formValues)
-        loginService(formValues, navigate)
+        loginService(formValues)
+        setShowBtnAddComment(true)
     }
 
     const formik = useFormik({
@@ -30,11 +40,20 @@ const FormLogin = () => {
         validationSchema
     })
 
-    console.log(formik.errors.password)
+    const changeShow = (e) => {
+        e.preventDefault()
+        setShowBtnAddComment(true)
+        const isLogged = localStorage.getItem("isLoggedIn")
+
+        if (isLogged === 'true') {
+            isLoggedIn(true)
+        }
+        setShowBtnAddComment(true)
+    }
 
     return(
-        <form onSubmit={formik.handleSubmit}>
-            <div>
+        <form className="container_formConnexion" onSubmit={formik.handleSubmit}>
+            <div className="formConnexion_input">
                 <label htmlFor="email">Email :</label>
                 <input type="email" name="email" {...formik.getFieldProps("email")}/>
                 { 
@@ -43,7 +62,7 @@ const FormLogin = () => {
                     <span>{formik.errors.email}</span> 
                 }
             </div>
-            <div>
+            <div className="formConnexion_input">
                 <label htmlFor="password">Mot de passe :</label>
                 <input type="password" name="password" {...formik.getFieldProps("password")}/>
                 { 
@@ -52,9 +71,18 @@ const FormLogin = () => {
                     <span color="red">{formik.errors.password}</span> 
                 }
             </div>
-            <div>
-                <button>se connecter</button>
-                <button onClick={()=> navigate(PATH_HOME)}>retour</button>
+            <div className="btn_formConnexion">
+                { 
+                    pathLocation.pathname.includes("article") ? 
+                        <button className="btn_connexion" onClick={()=>changeShow()} >se connecter</button> 
+                    : <button onClick={()=>navigate(PATH_ACCOUNT)} className="btn_connexion">se connecter</button>
+                }
+                <button 
+                    className="btn_connexion" 
+                    onClick={()=> navigate(PATH_HOME)}
+                >
+                    retour
+                </button>
             </div>
         </form>
     )

@@ -8,10 +8,15 @@ import {
 } from "react-icons/ti";
 
 import { BiCommentDetail } from "react-icons/bi";
+import { useLocation, useParams } from "react-router-dom";
+import { PATH_ARTICLE_ID } from "../../config/path/pathClient";
+import FormLogin from "../login/FormLogin";
 
 const CardArticle = () => {
+    
     const [ newComment, setNewComment ] = useState("");
     const [ showTextArea, setShowTextArea ] = useState(false);
+    const [ showBtnAddComment, setShowBtnAddComment ] = useState(true);
     const article = JSON.parse(localStorage.getItem("oneArticle"));
     console.log(article)
     const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -23,8 +28,27 @@ const CardArticle = () => {
 
     useEffect(()=> {
 
-    },[article, newComment])
+    },[article, newComment, isLoggedIn])
 
+    function AddComment(){
+        console.log(isLoggedIn)
+        console.log(showBtnAddComment)
+        if (isLoggedIn === "false") {
+            console.log(showBtnAddComment)
+            setShowBtnAddComment(false)
+            return <FormLogin setShowBtnAddComment={setShowBtnAddComment} showBtnAddComment={showBtnAddComment} isLoggedIn={isLoggedIn} /> 
+        }
+        setShowBtnAddComment(true)
+        return(
+            <form>
+                <textarea name="comment" id="" cols="30" rows="10" value={newComment} onChange={(e)=> setNewComment(e.target.value)}></textarea>
+                <div>
+                    <button onClick={()=>{cancelComment()}}>annuler</button>
+                    <button >publier</button>
+                </div>
+            </form>
+        )
+    }
     console.log(newComment)
     return(
         <section>
@@ -67,20 +91,14 @@ const CardArticle = () => {
                 <section>
                     <p>{article.content}</p>
                 </section>
-                <p>
-                    <BiCommentDetail />
-                    <button onClick={()=> setShowTextArea(!showTextArea)}>Ajouter un commentaire</button>
-                </p>
                 {
-                    showTextArea === true ? 
-                    <form>
-                        <textarea name="comment" id="" cols="30" rows="10" value={newComment} onChange={(e)=> setNewComment(e.target.value)}></textarea>
-                        <div>
-                            <button onClick={()=>{cancelComment()}}>annuler</button>
-                            <button >publier</button>
-                        </div>
-                    </form>
-                    : null
+                    showBtnAddComment === true ?<p>
+                        <BiCommentDetail />
+                        <button onClick={()=> setShowTextArea(!showTextArea)}>Ajouter un commentaire</button>
+                    </p> : null
+                }
+                {
+                    showTextArea === true ? <AddComment /> : null
                 }
                 <section>
                     {
