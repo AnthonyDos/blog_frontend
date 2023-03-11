@@ -49,6 +49,11 @@ section.article {
     width: 92%;
     margin: auto;
     border-bottom: 1px solid gray;
+    background: #515256
+}
+.article p {
+    width: 95%;
+    margin: 1% auto;
 }
 
 .data_likeNumber {
@@ -82,4 +87,47 @@ button.btn_comment {
     margin: 4%;
     background: transparent;
     color: white;
+}
+
+section.content_commentList {
+    width: 85%;
+    margin: 1% auto;
+    background: white;
+    color: black;
+}
+
+.container_comment {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1% auto;
+    width: 97%;
+    background: gray; 
+}
+
+.comment_details {
+    display: flex;
+    flex-direction: column;
+    width: 19%;
+    margin: 1% 0% 0 1%;
+}
+
+img.comment_user_photo {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+.container_p_comment {
+    display: flex;
+    justify-content: stretch;
+    background: white;
+    width: 72%;
+    margin: auto;
+}
+
+.comment-user {
+    text-align: justify;
+    width: 94%;
+    margin: 1% auto;
 }

@@ -2,11 +2,11 @@ const WordCount = (text) => {
     
     const MILLISECONDS = 60000;
     let number = 0;
-    let split = text.split(" ");
+    let split = text?.split(" ");
     let currentTimeReading = parseFloat(0.4);
     let read = 0;
 
-    for(let i = 0; i < split.length; i++) {
+    for(let i = 0; i < split?.length; i++) {
         if (split[i] != "") {
             number ++;
         }

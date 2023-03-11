@@ -6,32 +6,36 @@ import {
     TiArrowDownOutline, 
     TiArrowForwardOutline 
 } from "react-icons/ti";
+import { AiOutlineRead } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import FormLogin from "../login/FormLogin";
 import "../../assets/css/cardArticle.css";
+import StarsUser from "./StarsUser";
+import { allArticlesService } from "../../services/ArticleService";
 
 const CardArticle = () => {
-    
+    const [article, setArticle] = useState(JSON.parse(localStorage.getItem("oneArticle"))) 
     const [ newComment, setNewComment ] = useState("");
     const [ showTextArea, setShowTextArea ] = useState(false);
     const [ showBtnAddComment, setShowBtnAddComment ] = useState(true);
-    const article = JSON.parse(localStorage.getItem("oneArticle"));
+    const [ showReadComment, setShowReadComment ] = useState(false)
     const isLoggedIn = localStorage.getItem("isLoggedIn");
+    
+    useEffect(()=> {
+        allArticlesService()
+    },[article, newComment, isLoggedIn])
 
     const cancelComment = () => {
         setShowTextArea(!showTextArea)
         setNewComment("")
     }
 
-    useEffect(()=> {
-
-    },[article, newComment, isLoggedIn])
+    
     console.log(article)
     function AddComment(){
-        if (isLoggedIn === "false") {
-            console.log(showBtnAddComment)
+        if (isLoggedIn === "false" || isLoggedIn === null) {
             setShowBtnAddComment(false)
-            return <FormLogin setShowBtnAddComment={setShowBtnAddComment} showBtnAddComment={showBtnAddComment} isLoggedIn={isLoggedIn} /> 
+            return <FormLogin setShowBtnAddComment={setShowBtnAddComment} isLoggedIn={isLoggedIn}  cancelComment={cancelComment} /> 
         }
         setShowBtnAddComment(true)
         return(
@@ -51,6 +55,38 @@ const CardArticle = () => {
         )
     }
 
+    const ReadComment = () => {
+        if (showReadComment === true) {
+            return(
+                <section className="content_commentList">
+                    {
+                        article?.comments?.map((comment, index) => {
+                            return(
+                                <div key={index} className="container_comment">
+                                    <div className="comment_details">
+                                        <div>
+                                            <img 
+                                                className="comment_user_photo"
+                                                crossorigin="anonymous" 
+                                                src={comment.user.image} 
+                                                alt="photo de profil" 
+                                            />
+                                        </div>
+                                        <StarsUser value ={comment.user.numberComment}/>
+                                        <p>Auteur : {comment.user.lastName} {comment.user.firstName}</p>
+                                    </div>
+                                    <div className="container_p_comment">
+                                        <p className="comment-user">{comment.content}</p>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+                </section>
+            )
+        }else return null
+    }
+
     return(
         <section className="container_content_article">
             <div className="content_article_user">
@@ -62,6 +98,7 @@ const CardArticle = () => {
                         alt="photo de profil" 
                     />
                 </div>
+                <StarsUser value ={article.user.numberComment}/>
                 <p>Auteur :</p>
                 <p>{article?.user?.lastName}</p>
                 <p>{article?.user?.firstName}</p>
@@ -75,7 +112,7 @@ const CardArticle = () => {
                         alt="photo de l'article" 
                     />
                 </div>
-                <p>{article.name}</p>
+                <p>{article?.name}</p>
                 <div className="article_info_date">
                     <div className="info_date_data">
                         <p>Date de l'article :</p>
@@ -83,16 +120,17 @@ const CardArticle = () => {
                     </div>
                     <div className="info_data_read">
                         <p>Temps de lecture :</p>
-                        <p>{WordCount(article.content)}</p>
+                        <p>{WordCount(article?.content)}</p>
                     </div>
                     <div className="data_likeNumber">
-                        <p className="number_icone"><TiArrowUpOutline /> {article.likeCount}</p>
-                        <p className="number_icone"><TiArrowDownOutline /> {article.dislikes}</p>
-                        <p className="number_icone"><TiArrowForwardOutline /> {article.comments.length}</p>
+                        <p className="number_icone"><TiArrowUpOutline /> {article?.likeCount}</p>
+                        <p className="number_icone"><TiArrowDownOutline /> {article?.dislikes}</p>
+                        <p className="number_icone"><TiArrowForwardOutline /> {article?.comments?.length}</p>
                     </div>
                 </div>
                 <section className="article">
-                    <p>{article.content}</p>
+                    <p>{article?.content}</p>
+                    <span></span>
                 </section>
                 {
                     showBtnAddComment === true ?
@@ -112,28 +150,18 @@ const CardArticle = () => {
                 {
                     showTextArea === true ? <AddComment /> : null
                 }
-                <section className="content_commentList">
-                    {
-                        article?.comments?.map((comment, index) => {
-                            return(
-                                <div key={index} className="container_comment">
-                                    <div className="comment_details">
-                                        <div>
-                                            <img 
-                                                className="comment_user_photo"
-                                                crossorigin="anonymous" 
-                                                src={comment.user.image} 
-                                                alt="photo de profil" 
-                                            />
-                                        </div>
-                                        <p>Auteur : {comment.user.lastName} {comment.user.firstName}</p>
-                                    </div>
-                                    <p>{comment.content}</p>
-                                </div>
-                            )
-                        })
-                    }
-                </section>
+                <div className="container_add_comment">
+                    <p className="add_comment">
+                        <AiOutlineRead />
+                            <button 
+                                className="btn_comment" 
+                                onClick={()=> setShowReadComment(!showReadComment)}
+                            >
+                                Lire les commentaires
+                            </button>
+                        </p> 
+                    </div>
+                <ReadComment />
             </div>
         </section>
     )

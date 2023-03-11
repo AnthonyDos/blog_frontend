@@ -13,7 +13,7 @@ import { loginService } from "../../services/AuthService";
  */
 
 const FormLogin = (props) => {
-    const { setShowBtnAddComment, isLoggedIn } = props;
+    const { setShowBtnAddComment,showBtnAddComment, isLoggedIn, setShowFormConnect, cancelComment } = props;
     const pathLocation = useLocation();
     const navigate = useNavigate();
 
@@ -42,13 +42,18 @@ const FormLogin = (props) => {
 
     const changeShow = (e) => {
         e.preventDefault()
-        setShowBtnAddComment(true)
         const isLogged = localStorage.getItem("isLoggedIn")
 
         if (isLogged === 'true') {
             isLoggedIn(true)
         }
         setShowBtnAddComment(true)
+    }
+
+    const returnShowOriginView = (e) => {
+        e.preventDefault();
+        setShowBtnAddComment(true)
+        cancelComment()
     }
 
     return(
@@ -77,12 +82,21 @@ const FormLogin = (props) => {
                         <button className="btn_connexion" onClick={()=>changeShow()} >se connecter</button> 
                     : <button onClick={()=>navigate(PATH_ACCOUNT)} className="btn_connexion">se connecter</button>
                 }
-                <button 
-                    className="btn_connexion" 
-                    onClick={()=> navigate(PATH_HOME)}
-                >
-                    retour
-                </button>
+                {
+                    pathLocation.pathname.includes("article") ? 
+                        <button 
+                            className="btn_connexion" 
+                            onClick={(e)=>returnShowOriginView(e)}
+                        >
+                            retour
+                        </button>
+                    :   <button 
+                            className="btn_connexion" 
+                            onClick={()=> navigate(PATH_HOME)}
+                        >
+                            retour
+                        </button>
+                }
             </div>
         </form>
     )
