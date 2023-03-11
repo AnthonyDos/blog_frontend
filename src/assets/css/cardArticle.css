@@ -92,6 +92,7 @@ button.btn_comment {
 section.content_commentList {
     width: 85%;
     margin: 1% auto;
+    padding: 1%;
     background: white;
     color: black;
 }
@@ -123,7 +124,7 @@ img.comment_user_photo {
     justify-content: stretch;
     background: white;
     width: 72%;
-    margin: auto;
+    margin: 4% auto;
 }
 
 .comment-user {
