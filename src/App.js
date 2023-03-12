@@ -9,15 +9,17 @@ import Article from './views/article/Article';
 import Login from './views/form/Login';
 import Account from './views/account/Account';
 import ProtectedPath from './config/securePath/ProtectedPath';
+import { allArticlesService } from './services/ArticleService';
 
 
 function App() {
   const isLoggedIn = localStorage.getItem("isLoggedIn")
-  console.log(isLoggedIn)
+  allArticlesService();
+  
   return (
     <div className="App">
       <BrowserRouter>
-        <Header />
+        <Header isLoggedIn={isLoggedIn}/>
         <Routes>
           <Route 
             index

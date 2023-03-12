@@ -1,8 +1,10 @@
 import { useFormik } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { PATH_ACCOUNT, PATH_HOME } from "../../config/path/pathClient";
+import { PATH_HOME } from "../../config/path/pathClient";
 import { loginService } from "../../services/AuthService";
+import "../../assets/css/formLogin.css";
+
 /**
  * 
  * Gestion du formulaire avec formik et yup pour la validation des données.
@@ -12,7 +14,7 @@ import { loginService } from "../../services/AuthService";
  */
 
 const FormLogin = (props) => {
-    const { setShowBtnAddComment,isLoggedIn,cancelComment } = props;
+    const { setShowBtnAddComment,cancelComment, setShowTextArea } = props;
     const pathLocation = useLocation();
     const navigate = useNavigate();
 
@@ -29,11 +31,9 @@ const FormLogin = (props) => {
     }
 
     const handleSubmit = (formValues) =>{
-      
-        console.log(formValues)
-        loginService(formValues, navigate)
-        setShowBtnAddComment(true)
-        navigate(PATH_ACCOUNT)
+        const location = pathLocation.pathname.includes("article")
+        loginService(formValues, navigate, location, returnShowOriginView, setShowTextArea)
+        setShowBtnAddComment(true) 
     }
 
     const formik = useFormik({
@@ -43,18 +43,7 @@ const FormLogin = (props) => {
     })
     console.log(formik.values)
 
-    const changeShow = (e) => {
-        e.preventDefault()
-        const isLogged = localStorage.getItem("isLoggedIn")
-
-        if (isLogged === 'true') {
-            isLoggedIn(true)
-        }
-        setShowBtnAddComment(true)
-    }
-
-    const returnShowOriginView = (e) => {
-        e.preventDefault();
+    const returnShowOriginView = () => {
         setShowBtnAddComment(true)
         cancelComment()
     }
@@ -66,7 +55,7 @@ const FormLogin = (props) => {
                 <input type="email" name="email" id="email" {...formik.getFieldProps("email")}/>
                 { 
                     formik.errors.email && formik.touched.email &&
-                    <span>{formik.errors.email}</span>
+                    <span className="error_form">{formik.errors.email}</span>
                 }
             </div>
             <div className="formConnexion_input">
@@ -74,14 +63,14 @@ const FormLogin = (props) => {
                 <input type="password" name="password" id="password"  {...formik.getFieldProps("password")}/>
                 { 
                     formik.errors.password && formik.touched.password &&
-                    <span color="red">{formik.errors.password}</span> 
+                    <span className="error_form">{formik.errors.password}</span> 
                 }
             </div>
             <div className="btn_formConnexion">
                 { 
                     pathLocation.pathname.includes("article") ? 
-                        <button className="btn_connexion" onClick={()=>changeShow()} >se connecter</button> 
-                    : <button  className="btn_connexion">se connecter</button> 
+                        <button className="btn_connexion" >se connecter</button>
+                    : <button  className="btn_connexion" >se connecter</button> 
                     
                 }
                 {

@@ -36,7 +36,12 @@ const CardArticle = () => {
     function AddComment(){
         if (isLoggedIn === "false" || isLoggedIn === null) {
             setShowBtnAddComment(false)
-            return <FormLogin setShowBtnAddComment={setShowBtnAddComment} isLoggedIn={isLoggedIn}  cancelComment={cancelComment} /> 
+            return <FormLogin 
+                        setShowBtnAddComment={setShowBtnAddComment} 
+                        isLoggedIn={isLoggedIn}  
+                        cancelComment={cancelComment} 
+                        setShowTextArea={setShowTextArea}
+                    /> 
         }
         setShowBtnAddComment(true)
         return(
@@ -89,16 +94,11 @@ const CardArticle = () => {
     }
 
     const LikeArticle = (value, content) => {
-        console.log(value)
-        // const articleUserLiked = content.usersLiked.filter(u => u.includes("content.userId"))
-        //     console.log(articleUserLiked)
         const article = {
             userId: content.userId,
             like: value
         }
-         
         likeService(article, content._id)
-        console.log(value)
     }
 
     return(

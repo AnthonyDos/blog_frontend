@@ -1,10 +1,14 @@
+import { useEffect } from "react";
 import HeaderComponent from "../../components/header/HeaderComponent";
 
-const Header = () => {
+const Header = (props) => {
+    const { isLoggedIn } = props;
+    useEffect(()=> {
 
+    },[isLoggedIn])
     return(
         <div>
-            <HeaderComponent />
+            <HeaderComponent isLoggedIn={isLoggedIn} />
         </div>
     )
 }

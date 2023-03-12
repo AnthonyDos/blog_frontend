@@ -20,7 +20,6 @@ export const oneArticlesService = (id) => {
     axios.get(API_CALL.BASE_URL + API_CALL.ARTICLES + id)
     .then((response) => {
         const article = response.data;
-        console.log(response)
         localStorage.setItem("oneArticle",JSON.stringify(article))
         return article
     }).catch((err) => {
@@ -30,8 +29,7 @@ export const oneArticlesService = (id) => {
 }
 
 export const likeService = (article, id) => {
-    console.log(article)
-    console.log(id)
+
     axios.post(API_CALL.BASE_URL + `/article/${id}` + API_CALL.LIKE_ARTICLE,article ,{headers: AuthHeader()} )
     .then((response) => {
         return response

@@ -1,12 +1,10 @@
 import Card from "../card/Card";
 import "../../assets/css/homeComponent.css";
-import { allArticlesService } from "../../services/ArticleService";
 import Search from "../search/Search";
-import { useState } from "react";
 
-const HomeComponent = () => {
-    allArticlesService();
-    const [ listArticles, setListArticle ] = useState(JSON.parse(localStorage.getItem("articles")))
+const HomeComponent = (props) => {
+    const { listArticles, setListArticle} = props;
+    
     return(
         <div>
             <section className="container-home">
