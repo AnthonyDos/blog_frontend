@@ -29,6 +29,19 @@ export const oneArticlesService = (id) => {
     
 }
 
+export const createCommentService = (articleId,value) => {
+
+    axios.get(API_CALL.BASE_URL + `/article/${articleId}` + API_CALL.ADD_COMMENT )
+    .then((response) => {
+        const article = response.data;
+        localStorage.setItem("oneArticle",JSON.stringify(article))
+        return article
+    }).catch((err) => {
+        console.log({err: err})
+    });
+    
+}
+
 export const likeService = (article, id) => {
 
     axios.post(API_CALL.BASE_URL + `/article/${id}` + API_CALL.LIKE_ARTICLE,article ,{headers: AuthHeader()} )

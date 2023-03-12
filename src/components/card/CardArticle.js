@@ -23,7 +23,6 @@ const CardArticle = () => {
     const [ showBtnAddComment, setShowBtnAddComment ] = useState(true);
     const [ showReadComment, setShowReadComment ] = useState(false)
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    const [ ifUserIsLiked, setIfUserIsLiked ] = useState(false)
 
    function getData() {
      return setArticle(JSON.parse(localStorage.getItem("oneArticle")))
@@ -43,6 +42,12 @@ const CardArticle = () => {
 
     
     console.log(article)
+
+    const sendComment = (e) => {
+        e.preventDefault();
+            console.log(newComment)
+    }
+
     function AddComment(){
         if (isLoggedIn === "false" || isLoggedIn === null) {
             setShowBtnAddComment(false)
@@ -60,12 +65,12 @@ const CardArticle = () => {
                     name="comment" id="" 
                     cols="30" 
                     rows="10" 
-                    value={newComment} 
+                   // value={newComment} 
                     onChange={(e)=> setNewComment(e.target.value)}
                 ></textarea>
                 <div className="container_btn_comment">
                     <button className="btn_comment" onClick={()=>{cancelComment()}}>annuler</button>
-                    <button className="btn_comment">publier</button>
+                    <button className="btn_comment" >publier</button>
                 </div>
             </form>
         )
