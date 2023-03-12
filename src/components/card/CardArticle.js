@@ -12,8 +12,11 @@ import FormLogin from "../login/FormLogin";
 import "../../assets/css/cardArticle.css";
 import StarsUser from "./StarsUser";
 import { allArticlesService, likeService } from "../../services/ArticleService";
+import { useParams } from "react-router-dom";
+
 
 const CardArticle = () => {
+    const param = useParams()
     const [article, setArticle] = useState(JSON.parse(localStorage.getItem("oneArticle"))) 
     const [ newComment, setNewComment ] = useState("");
     const [ showTextArea, setShowTextArea ] = useState(false);
@@ -22,8 +25,15 @@ const CardArticle = () => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
     const [ ifUserIsLiked, setIfUserIsLiked ] = useState(false)
 
+   function getData() {
+     return setArticle(JSON.parse(localStorage.getItem("oneArticle")))
+   }
+
     useEffect(()=> {
         allArticlesService()
+       if (article._id != param.id) {
+        getData()
+       }
     },[article, newComment, isLoggedIn])
 
     const cancelComment = () => {
@@ -74,15 +84,15 @@ const CardArticle = () => {
                                             <img 
                                                 className="comment_user_photo"
                                                 crossorigin="anonymous" 
-                                                src={comment.user.image} 
+                                                src={comment?.user?.image} 
                                                 alt="photo de profil" 
                                             />
                                         </div>
-                                        <StarsUser value ={comment.user.numberComment}/>
-                                        <p>Auteur : {comment.user.lastName} {comment.user.firstName}</p>
+                                        <StarsUser value ={comment?.user?.numberComment}/>
+                                        <p>Auteur : {comment?.user?.lastName} {comment?.user?.firstName}</p>
                                     </div>
                                     <div className="container_p_comment">
-                                        <p className="comment-user">{comment.content}</p>
+                                        <p className="comment-user">{comment?.content}</p>
                                     </div>
                                 </div>
                             )
@@ -100,7 +110,8 @@ const CardArticle = () => {
         }
         likeService(article, content._id)
     }
-
+   
+    
     return(
         <section className="container_content_article">
             <div className="content_article_user">
@@ -112,7 +123,7 @@ const CardArticle = () => {
                         alt="photo de profil" 
                     />
                 </div>
-                <StarsUser value ={article.user.numberComment}/>
+                <StarsUser value ={article?.user?.numberComment}/>
                 <div className="article_author">
                     <p>Auteur :</p>
                     <p>{article?.user?.lastName}</p>
@@ -140,7 +151,7 @@ const CardArticle = () => {
                     </div>
                     <div className="data_likeNumber">
                         {
-                            article.usersLiked.filter(u => u.includes("content.userId")) == null ? 
+                            article?.usersLiked?.filter(u => u.includes("content.userId")) == null ? 
                                 <p className="number_icone">
                                     <button className="btn_liked" onClick={()=> LikeArticle(1, article)}>
                                         <TiArrowUpOutline color="green"/>

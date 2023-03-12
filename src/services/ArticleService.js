@@ -1,4 +1,5 @@
 import axios from "axios";
+import CardArticle from "../components/card/CardArticle.js";
 import AuthHeader from "../config/configAuth/AuthHeader.js";
 import * as API_CALL from "../config/path/pathApi";
 
