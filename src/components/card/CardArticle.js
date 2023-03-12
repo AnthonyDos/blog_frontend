@@ -11,7 +11,7 @@ import { BiCommentDetail } from "react-icons/bi";
 import FormLogin from "../login/FormLogin";
 import "../../assets/css/cardArticle.css";
 import StarsUser from "./StarsUser";
-import { allArticlesService } from "../../services/ArticleService";
+import { allArticlesService, likeService } from "../../services/ArticleService";
 
 const CardArticle = () => {
     const [article, setArticle] = useState(JSON.parse(localStorage.getItem("oneArticle"))) 
@@ -20,7 +20,8 @@ const CardArticle = () => {
     const [ showBtnAddComment, setShowBtnAddComment ] = useState(true);
     const [ showReadComment, setShowReadComment ] = useState(false)
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    
+    const [ ifUserIsLiked, setIfUserIsLiked ] = useState(false)
+
     useEffect(()=> {
         allArticlesService()
     },[article, newComment, isLoggedIn])
@@ -87,6 +88,19 @@ const CardArticle = () => {
         }else return null
     }
 
+    const LikeArticle = (value, content) => {
+        console.log(value)
+        // const articleUserLiked = content.usersLiked.filter(u => u.includes("content.userId"))
+        //     console.log(articleUserLiked)
+        const article = {
+            userId: content.userId,
+            like: value
+        }
+         
+        likeService(article, content._id)
+        console.log(value)
+    }
+
     return(
         <section className="container_content_article">
             <div className="content_article_user">
@@ -99,9 +113,11 @@ const CardArticle = () => {
                     />
                 </div>
                 <StarsUser value ={article.user.numberComment}/>
-                <p>Auteur :</p>
-                <p>{article?.user?.lastName}</p>
-                <p>{article?.user?.firstName}</p>
+                <div className="article_author">
+                    <p>Auteur :</p>
+                    <p>{article?.user?.lastName}</p>
+                    <p>{article?.user?.firstName}</p>
+                </div>
             </div>
             <div className="content_article">
                 <div className="content_article_image">
@@ -123,9 +139,31 @@ const CardArticle = () => {
                         <p>{WordCount(article?.content)}</p>
                     </div>
                     <div className="data_likeNumber">
-                        <p className="number_icone"><TiArrowUpOutline /> {article?.likeCount}</p>
-                        <p className="number_icone"><TiArrowDownOutline /> {article?.dislikes}</p>
-                        <p className="number_icone"><TiArrowForwardOutline /> {article?.comments?.length}</p>
+                        {
+                            article.usersLiked.filter(u => u.includes("content.userId")) == null ? 
+                                <p className="number_icone">
+                                    <button className="btn_liked" onClick={()=> LikeArticle(1, article)}>
+                                        <TiArrowUpOutline color="green"/>
+                                    </button> {article?.likes}
+                                </p> 
+                            : 
+                                <p className="number_icone">
+                                    <button className="btn_liked" onClick={()=> LikeArticle(0, article)}>
+                                        <TiArrowUpOutline color="green"/>
+                                    </button> {article?.likes}
+                                </p>
+                            
+                        }
+                        <p className="number_icone">
+                            <button className="btn_liked" onClick={()=> LikeArticle(0,article.user._id)}>
+                                <TiArrowDownOutline color="red"/>
+                            </button> {article?.dislikes}
+                        </p>
+                        <p className="number_icone">
+                            <button className="btn_liked">
+                                <TiArrowForwardOutline color="white"/>
+                            </button> {article?.comments?.length}
+                        </p>
                     </div>
                 </div>
                 <section className="article">

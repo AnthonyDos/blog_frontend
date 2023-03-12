@@ -10,9 +10,17 @@
 
 .content_article_user {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     width: 29%;
     margin: 2% auto 2% 1%;
+}
+
+.article_author {
+    display: flex;
+    justify-content: space-around;
+    width: 49%;
+    margin: 0 auto;
 }
 
 img.content_article_userImage {
@@ -43,6 +51,17 @@ img.content_article_userImage {
     margin: 0 4%;
 }
 
+.data_likeNumber {
+    display: flex;
+    justify-content: space-around;
+    width: 18%;
+}
+
+.btn_liked {
+    border: none;
+    background: transparent;
+}
+
 section.article {
     display: flex;
     text-align: justify;
@@ -54,12 +73,6 @@ section.article {
 .article p {
     width: 95%;
     margin: 1% auto;
-}
-
-.data_likeNumber {
-    display: flex;
-    justify-content: space-around;
-    width: 14%;
 }
 
 p.number_icone {

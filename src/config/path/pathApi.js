@@ -18,3 +18,6 @@ export const DELETE_ARTICLE = "/article/delete/";
 
 //path comments
 export const ADD_COMMENT = "/article/:_id/comment/";
+
+//path like article
+export const LIKE_ARTICLE = "/like";

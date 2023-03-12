@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { PATH_ACCOUNT, PATH_HOME } from "../../config/path/pathClient";
-import { REGEX_EMAIL, REGEX_PASSWORD } from "../../config/regex/regex";
 import { loginService } from "../../services/AuthService";
 /**
  * 
@@ -13,7 +12,7 @@ import { loginService } from "../../services/AuthService";
  */
 
 const FormLogin = (props) => {
-    const { setShowBtnAddComment,showBtnAddComment, isLoggedIn, setShowFormConnect, cancelComment } = props;
+    const { setShowBtnAddComment,isLoggedIn,cancelComment } = props;
     const pathLocation = useLocation();
     const navigate = useNavigate();
 
@@ -29,16 +28,20 @@ const FormLogin = (props) => {
         password: ""
     }
 
-    const signinUser = (formValues) => {
-        loginService(formValues)
+    const handleSubmit = (formValues) =>{
+      
+        console.log(formValues)
+        loginService(formValues, navigate)
         setShowBtnAddComment(true)
+        navigate(PATH_ACCOUNT)
     }
 
     const formik = useFormik({
         initialValues,
-        onSubmit: signinUser,
+        onSubmit: handleSubmit,
         validationSchema
     })
+    console.log(formik.values)
 
     const changeShow = (e) => {
         e.preventDefault()
@@ -55,24 +58,22 @@ const FormLogin = (props) => {
         setShowBtnAddComment(true)
         cancelComment()
     }
-
+    
     return(
-        <form className="container_formConnexion" onSubmit={formik.handleSubmit}>
+        <form className="container_formConnexion" onSubmit={formik.handleSubmit} >
             <div className="formConnexion_input">
                 <label htmlFor="email">Email :</label>
-                <input type="email" name="email" {...formik.getFieldProps("email")}/>
+                <input type="email" name="email" id="email" {...formik.getFieldProps("email")}/>
                 { 
-                    formik.errors.email && 
-                    formik.touched.email && 
-                    <span>{formik.errors.email}</span> 
+                    formik.errors.email && formik.touched.email &&
+                    <span>{formik.errors.email}</span>
                 }
             </div>
             <div className="formConnexion_input">
                 <label htmlFor="password">Mot de passe :</label>
-                <input type="password" name="password" {...formik.getFieldProps("password")}/>
+                <input type="password" name="password" id="password"  {...formik.getFieldProps("password")}/>
                 { 
-                    formik.errors.password && 
-                    formik.touched.password && 
+                    formik.errors.password && formik.touched.password &&
                     <span color="red">{formik.errors.password}</span> 
                 }
             </div>
@@ -80,7 +81,8 @@ const FormLogin = (props) => {
                 { 
                     pathLocation.pathname.includes("article") ? 
                         <button className="btn_connexion" onClick={()=>changeShow()} >se connecter</button> 
-                    : <button onClick={()=>navigate(PATH_ACCOUNT)} className="btn_connexion">se connecter</button>
+                    : <button  className="btn_connexion">se connecter</button> 
+                    
                 }
                 {
                     pathLocation.pathname.includes("article") ? 

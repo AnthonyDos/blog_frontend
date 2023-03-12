@@ -1,4 +1,5 @@
 import axios from "axios";
+import AuthHeader from "../config/configAuth/AuthHeader.js";
 import * as API_CALL from "../config/path/pathApi";
 
 export const allArticlesService = () => {
@@ -22,6 +23,18 @@ export const oneArticlesService = (id) => {
         console.log(response)
         localStorage.setItem("oneArticle",JSON.stringify(article))
         return article
+    }).catch((err) => {
+        console.log({err: err})
+    });
+    
+}
+
+export const likeService = (article, id) => {
+    console.log(article)
+    console.log(id)
+    axios.post(API_CALL.BASE_URL + `/article/${id}` + API_CALL.LIKE_ARTICLE,article ,{headers: AuthHeader()} )
+    .then((response) => {
+        return response
     }).catch((err) => {
         console.log({err: err})
     });
