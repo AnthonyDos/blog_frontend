@@ -4,6 +4,7 @@ form.container_formConnexion {
     max-width: 320px;
     margin: 3% auto;
     background: #40454c;
+    box-shadow: #e7dede 1px 1px;
 }
 
 .formConnexion_input {
@@ -18,12 +19,19 @@ form.container_formConnexion {
     width: 39%;
     text-align: initial;
 }
-
+.btn_formConnexion {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3%;
+}
 button.btn_connexion {
     background: transparent;
     border: none;
     color: white;
+    box-shadow: 1px 1px;
+    width: 24%;
     margin-bottom: 5%;
+    font-weight: bolder;
 }
 
 .error_form {

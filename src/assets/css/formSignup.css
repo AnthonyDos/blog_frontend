@@ -1,0 +1,38 @@
+.container_form_singup{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 60%;
+    margin: auto;
+    color: white;
+    background: #40454c;
+    box-shadow: #e7dede 1px 1px;
+}
+.form_singup_infoUser {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: 2% auto;
+    text-align: start;
+}
+.form_data-img {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+}
+label.form_data-label, .form_dataImg {
+    display: flex;
+}
+.btn_formSignup{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3%;
+    width: 100%;
+}
+.form_data-img-btn {
+    background: transparent;
+    border: none;
+    box-shadow: white 1px 1px;
+    color: white;
+}

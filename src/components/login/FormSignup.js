@@ -3,7 +3,8 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { signupService } from "../../services/AuthService";
 import { useEffect, useRef, useState } from "react";
-
+import { PATH_HOME } from "../../config/path/pathClient";
+import "../../assets/css/formSignup.css";
 
 const FormSignup = () => {
     const navigate = useNavigate();
@@ -65,17 +66,17 @@ const FormSignup = () => {
     useEffect(()=> {
 
     },[uploadImageData, gender])
-    
+
     return(
-        <form onSubmit={formik.handleSubmit}>
-            <div>
-                <p>Genre</p>
+        <form className="container_form_singup" onSubmit={formik.handleSubmit}>
+            <div className="form_singup_infoUser">
+                <label>Genre</label>
                 <select name="gender" id="gender" onChange={(e)=>setGender(e.target.value)}>
                     <option value="male">homme</option>
                     <option value="female">femme</option>
                 </select>
             </div>
-            <div >
+            <div className="form_singup_infoUser">
                 <label htmlFor="lastName">Nom :</label>
                 <input type="text" name="lastName" id="lastName" {...formik.getFieldProps("lastName")}/>
                 { 
@@ -83,7 +84,7 @@ const FormSignup = () => {
                     <span className="error_form">{formik.errors.lastName}</span>
                 }
             </div>
-            <div >
+            <div className="form_singup_infoUser">
                 <label htmlFor="firstName">Prénom :</label>
                 <input type="text" name="firstName" id="firstName" {...formik.getFieldProps("firstName")}/>
                 { 
@@ -91,7 +92,7 @@ const FormSignup = () => {
                     <span className="error_form">{formik.errors.firstName}</span>
                 }
             </div>
-            <div className="formConnexion_input">
+            <div className="form_singup_infoUser">
                 <label htmlFor="email">Email :</label>
                 <input type="email" name="email" id="email" {...formik.getFieldProps("email")}/>
                 { 
@@ -99,7 +100,7 @@ const FormSignup = () => {
                     <span className="error_form">{formik.errors.email}</span>
                 }
             </div>
-            <div className="formConnexion_input">
+            <div className="form_singup_infoUser">
                 <label htmlFor="password">Mot de passe :</label>
                 <input type="password" name="password" id="password"  {...formik.getFieldProps("password")}/>
                 { 
@@ -107,7 +108,7 @@ const FormSignup = () => {
                     <span className="error_form">{formik.errors.password}</span> 
                 }
             </div>
-            <div className="formConnexion_input">
+            <div className="form_singup_infoUser">
                 <label htmlFor="confirmedPassword">Confirmation mot de passe :</label>
                 <input type="password" name="confirmedPassword" id="confirmedPassword"  {...formik.getFieldProps("confirmedPassword")}/>
                 { 
@@ -116,14 +117,16 @@ const FormSignup = () => {
                 }
             </div>
             <div className="form_data-img">
-                <label className="form_data-label">Image boutique</label>
-                <input
-                    className="form_data-img"
-                    ref={refImage}
-                    name="image"
-                    type="file"
-                    onChange={uploadImage}
-                />
+                <div>
+                    <label className="form_data-label">Image boutique</label>
+                    <input
+                        className="form_dataImg"
+                        ref={refImage}
+                        name="image"
+                        type="file"
+                        onChange={uploadImage}
+                    />
+                </div>
                 <button className="form_data-img-btn" onClick={cancelImage}>
                     annuler
                 </button>
@@ -132,7 +135,7 @@ const FormSignup = () => {
                     <span className="error_form">{formik.errors.image}</span> 
                 }
             </div>
-            <div className="formConnexion_input">
+            <div className="form_singup_infoUser">
                 <label htmlFor="category">Catégorie</label>
                 <input type="text" name="category" id="category"  {...formik.getFieldProps("category")}/>
                 { 
@@ -140,7 +143,15 @@ const FormSignup = () => {
                     <span className="error_form">{formik.errors.category}</span> 
                 }
             </div>
-            <button className="btn_connexion" >se connecter</button>
+            <div className="btn_formSignup">
+                <button className="btn_connexion" >se connecter</button>
+                <button 
+                    className="btn_connexion" 
+                    onClick={()=> navigate(PATH_HOME)}
+                >
+                    retour
+                </button>
+            </div>
         </form>
     )
 }
